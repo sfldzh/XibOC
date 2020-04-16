@@ -73,6 +73,14 @@
 
 
 @implementation UIButton (Extend)
++(void)load{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        //set方法替换
+        [ChangeSelector exchangeInstanceMethodWithClass:[self class] originalSelector:@selector(setEnabled:) swizzledSelector:@selector(setTheEnabled:)];
+    });
+}
+
 - (UIColor *)unEnabledColor{
     return objc_getAssociatedObject(self, _cmd);
 }
@@ -102,8 +110,8 @@
     }
 }
 
-- (void)setEnabled:(BOOL)enabled{
-    [super setEnabled:enabled];
+- (void)setTheEnabled:(BOOL)enabled{
+    [self setTheEnabled:enabled];
     UIColor *color;
     if (enabled) {
         color = [self enabledColor];
