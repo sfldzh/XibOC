@@ -7,9 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "XibCategory.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *button;
+@property (weak, nonatomic) IBOutlet UITextField *textField;
 
 @end
 
@@ -18,6 +20,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.textField.maxLength = 0;
+    self.textField.maxLength = 0;
+    
+    self.textField.maxLength = 4;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         self.button.enabled = false;

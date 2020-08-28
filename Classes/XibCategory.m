@@ -289,6 +289,19 @@
     }
 }
 
+- (void)setMaxLength:(NSInteger)maxLength{
+    objc_setAssociatedObject(self, @selector(maxLength), @(maxLength), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    if (maxLength > 0) {
+        [self addTarget:self action:@selector(textDidChanged:) forControlEvents:(UIControlEventEditingChanged)];
+    }else{
+        [self removeTarget:self action:@selector(textDidChanged:) forControlEvents:UIControlEventEditingChanged];
+    }
+}
+
+- (NSInteger)maxLength{
+    return [objc_getAssociatedObject(self, _cmd) integerValue];
+}
+
 - (BOOL)isCheckPrice{
     return [objc_getAssociatedObject(self, _cmd) boolValue];
 }
@@ -325,6 +338,12 @@
     }else if (self.isCheckPhone){
         if (text.text.length > 11) {
             text.text = [text.text substringToIndex:11];
+        }
+    }else{
+        if (self.maxLength>0) {
+            if (text.text.length > self.maxLength) {
+                text.text = [text.text substringToIndex:self.maxLength];
+            }
         }
     }
 }

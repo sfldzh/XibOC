@@ -53,6 +53,7 @@ typedef enum : NSUInteger {
 @end
 
 @interface UITextField (Extend)
+@property (nonatomic, assign)IBInspectable NSInteger maxLength;//最长数
 @property (nonatomic, assign)IBInspectable BOOL isCheckPrice;//是否检查价格
 @property (nonatomic, assign)IBInspectable BOOL isCheckPhone;//是否检查手机号码
 @property (nonatomic, assign)IBInspectable NSInteger decimalPointLength;//小数位数，默认2位
