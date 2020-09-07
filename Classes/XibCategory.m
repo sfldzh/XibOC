@@ -333,16 +333,33 @@
             NSString *subStr = [text.text substringFromIndex:rang.location+1];
             if (subStr.length>self.decimalPointLength) {
                 text.text = [text.text substringToIndex:rang.location+self.decimalPointLength+1];
+                [self sendOtherTager];
             }
         }
     }else if (self.isCheckPhone){
         if (text.text.length > 11) {
             text.text = [text.text substringToIndex:11];
+            [self sendOtherTager];
         }
     }else{
         if (self.maxLength>0) {
             if (text.text.length > self.maxLength) {
                 text.text = [text.text substringToIndex:self.maxLength];
+                [self sendOtherTager];
+            }
+        }
+    }
+}
+
+- (void)sendOtherTager{
+    for (id tager in self.allTargets) {
+        if (tager != self) {
+            NSArray *sels = [self actionsForTarget:tager forControlEvent:UIControlEventEditingChanged];
+            for (NSString *selName in sels) {
+                SEL sel = NSSelectorFromString(selName);
+                if ([tager respondsToSelector:sel]) {
+                    [tager performSelector:sel withObject:self afterDelay:0.0];
+                }
             }
         }
     }

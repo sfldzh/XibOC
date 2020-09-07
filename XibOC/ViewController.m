@@ -20,9 +20,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.textField.maxLength = 0;
-    self.textField.maxLength = 0;
-    
     self.textField.maxLength = 4;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -34,5 +31,10 @@
     });
 }
 
+- (IBAction)textdidaChange:(UITextField *)sender {
+    if (sender.maxLength<=sender.text.length) {
+        NSLog(@"%@",sender.text);
+    }
+}
 
 @end
