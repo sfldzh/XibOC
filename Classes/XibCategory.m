@@ -78,6 +78,7 @@
     dispatch_once(&onceToken, ^{
         //set方法替换
         [ChangeSelector exchangeInstanceMethodWithClass:[self class] originalSelector:@selector(setEnabled:) swizzledSelector:@selector(setTheEnabled:)];
+        [ChangeSelector exchangeInstanceMethodWithClass:[self class] originalSelector:@selector(setBackgroundColor:) swizzledSelector:@selector(setTheBackgroundColor:)];
     });
 }
 
@@ -103,8 +104,8 @@
     }
 }
 
-- (void)setBackgroundColor:(UIColor *)backgroundColor{
-    [super setBackgroundColor:backgroundColor];
+- (void)setTheBackgroundColor:(UIColor *)backgroundColor{
+    [self setTheBackgroundColor:backgroundColor];
     if ([self enabledColor] == nil) {
         [self setEnabledColor:backgroundColor];
     }
