@@ -1,11 +1,3 @@
-//
-//  XibCategory.m
-//  XibOC
-//
-//  Created by 施峰磊 on 2020/2/29.
-//  Copyright © 2020 施峰磊. All rights reserved.
-//
-
 #import "XibCategory.h"
 #import "ChangeSelector.h"
 #import <objc/runtime.h>
@@ -141,47 +133,7 @@
 @implementation NSString (Extend)
 
 - (NSArray *)numberTypeSplit{
-    NSRegularExpression *regular = [NSRegularExpression regularExpressionWithPattern:@"([0-9]\\d*\\.?\\d*)" options:0 error:NULL];
-    NSMutableArray *results = [NSMutableArray arrayWithArray:[regular matchesInString:self options:0 range:NSMakeRange(0,self.length)]];
-    NSMutableArray *stringArray = [NSMutableArray arrayWithCapacity:0];
-    NSInteger count = 0;
-    if (results.count>0) {
-        count = (results.count*2)-1;
-        NSTextCheckingResult *firstResult = results.firstObject;
-        NSTextCheckingResult *endResult = results.lastObject;
-        if (firstResult.range.location != 0)count++;
-        if (firstResult != endResult) {//不是只有一个结果
-            if (endResult.range.location+endResult.range.length < self.length) count++;
-        }else{
-            if (firstResult.range.location+firstResult.range.length < self.length) count++;
-        }
-    }
-    if (count==0) {
-        TypeString *typeString = [TypeString new];
-        typeString.string = self;
-        typeString.type = StringTypeOther;
-        [stringArray addObject:typeString];
-    }else{
-        NSUInteger lastLocation = 0;
-        for (int i = 0; i < count; i++) {
-            NSTextCheckingResult *firstResult = results.firstObject;
-            TypeString *typeString = [TypeString new];
-            NSString *content;
-            if (firstResult.range.location == lastLocation) {
-                content = [self substringWithRange:firstResult.range];
-                lastLocation = firstResult.range.location+firstResult.range.length;
-                [results removeObject:firstResult];
-                typeString.type = StringTypeNumber;
-            }else{
-                content = [self substringWithRange:NSMakeRange(lastLocation, firstResult?(firstResult.range.location-lastLocation):(self.length - lastLocation))];
-                lastLocation = firstResult.range.location;
-                typeString.type = StringTypeOther;
-            }
-            typeString.string = content;
-            [stringArray addObject:typeString];
-        }
-    }
-    return stringArray;
+    return @[];
 }
 
 /// TODO:字符串精度控制
@@ -285,7 +237,7 @@
         if (isCheckPrice) {
             [self addTarget:self action:@selector(textDidChanged:) forControlEvents:(UIControlEventEditingChanged)];
             [self addTarget:self action:@selector(textDidEnd:) forControlEvents:(UIControlEventEditingDidEndOnExit)];
-            [self addTarget:self action:@selector(textDidEnd:) forControlEvents:(UIControlEventEditingDidEnd)];
+//            [self addTarget:self action:@selector(textDidEnd:) forControlEvents:(UIControlEventEditingDidEnd)];
         }
     }
 }
